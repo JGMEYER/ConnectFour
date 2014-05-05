@@ -85,8 +85,7 @@ public class Rack
     }
 
     /*
-     * Creates a shallow copy of the rack. Used primarily for modeling and
-     * simulation.
+     * Creates a shallow copy of the rack. Used primarily for modeling and simulation.
      * 
      * @see java.lang.Object#clone()
      */
@@ -128,8 +127,7 @@ public class Rack
     }
 
     /*
-     * Adds a player's chip to the specified column and returns whether
-     * placement was successful.
+     * Adds a player's chip to the specified column and returns whether placement was successful.
      */
     public boolean place(int player, int col)
     {
@@ -199,8 +197,7 @@ public class Rack
     }
 
     /*
-     * Returns a string representation of the board that shows each player's
-     * positions.
+     * Returns a string representation of the board that shows each player's positions.
      */
     public String toString()
     {
@@ -208,8 +205,8 @@ public class Rack
     }
 
     /*
-     * Returns a string representation of the board that shows each player's
-     * positions with additional debug data if requested.
+     * Returns a string representation of the board that shows each player's positions with additional debug data if
+     * requested.
      */
     public String toString(boolean debug)
     {
@@ -242,8 +239,8 @@ public class Rack
                 updateAttrib(r, c, r, c - 1, LEFT);
             }
         }
-        for (int r = rack.length - 1; r >= 0; r--) {
-            for (int c = 0; c < rack[0].length; c++) {
+        for (int r = 0; r < rack.length; r++) {
+            for (int c = rack[0].length - 1; c >= 0; c--) {
                 updateAttrib(r, c, r - 1, c + 1, TOP_RIGHT);
                 updateAttrib(r, c, r, c + 1, RIGHT);
             }
@@ -251,8 +248,7 @@ public class Rack
     }
 
     /*
-     * Increments a given chip's neighbor value, given that its neighbor at that
-     * location is of the same PLAYER.
+     * Increments a given chip's neighbor value, given that its neighbor at that location is of the same PLAYER.
      */
     private void updateAttrib(int r1, int c1, int r2, int c2, int neighbor)
     {
