@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class RandomPlayer implements Player
 {
-    
+
     public int getMove(Rack rack)
     {
         List<Integer> moves = rack.possibleMoves();

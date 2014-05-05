@@ -31,6 +31,19 @@ public class Rack
         this(new int[HEIGHT][WIDTH][9]);
     }
 
+    public Rack(int[][] rackShell)
+    {
+        this.rack = new int[HEIGHT][WIDTH][9];
+
+        for (int r = 0; r < rack.length; r++) {
+            for (int c = 0; c < rack[0].length; c++) {
+                rack[r][c][PLAYER] = rackShell[r][c];
+            }
+        }
+
+        update();
+    }
+
     private Rack(int[][][] rack)
     {
         this.rack = rack;
@@ -150,19 +163,18 @@ public class Rack
     }
 
     /*
-     * Returns the threat difference between p1 and p2.
-     * TODO
+     * Returns p1's threat level. TODO
      */
-    public int threatDifference(int p1, int p2)
+    public int threat(int p1, int p2)
     {
         int threat1 = 0;
         int threat2 = 0;
 
         if (gameOver()) {
-            if (winner() == p1) {
+            if (winner == p1) {
                 threat1 = Integer.MAX_VALUE;
             }
-            else if (winner() == p2) {
+            else if (winner == p2) {
                 threat2 = Integer.MAX_VALUE;
             }
         }
@@ -171,12 +183,12 @@ public class Rack
                 for (int c = 0; c < rack[0].length; c++) {
                     if (rack[r][c][PLAYER] == p1) {
                         for (int a = 1; a < rack[0][0].length; a++) {
-                            threat1++;
+                            threat1 += rack[r][c][a];
                         }
                     }
                     else if (rack[r][c][PLAYER] == p2) {
                         for (int a = 1; a < rack[0][0].length; a++) {
-                            threat2++;
+                            threat2 += rack[r][c][a];
                         }
                     }
                 }
