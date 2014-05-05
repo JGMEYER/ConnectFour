@@ -1,16 +1,13 @@
 package com.meyer.justian;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 public class MiniMaxPlayer implements Player
 {
 
-    private static final int MAX_TURN_DEPTH = 3;
+    private static final int MAX_TURN_DEPTH = 4;
 
     private int              player;
     private int              enemyPlayer;
@@ -33,32 +30,46 @@ public class MiniMaxPlayer implements Player
         return minimax(-1, rack, 0, true);
     }
 
-    // TODO choose between actions of same weight
+    // TODO believed to be issue with new form of choosing random options
     private ActionNode minimax(final int action, final Rack rack, final int depth, final boolean maximizing)
     {
         int score = rack.threat(player, enemyPlayer);
 
+        // Terminating conditions
         if (depth >= MAX_TURN_DEPTH || rack.gameOver()) {
             return new ActionNode(action, score, depth);
         }
 
-        ActionNode bestAction = null;
+        Random rand = new Random();
+        int actionIndex;
+        List<ActionNode> bestActions = new ArrayList<ActionNode>();
 
         if (maximizing) {
             int bestScore = Integer.MIN_VALUE;
 
+            // Attempt to maximize player's score
             for (Integer move : rack.possibleMoves()) {
                 Rack newRack = rack.clone();
                 newRack.place(player, move);
                 ActionNode an = minimax(move, newRack, depth, false);
 
+                // Select the best action
                 if (an.score() > bestScore) {
-                    bestAction = new ActionNode(move, an.score(), an.turns());
+                    bestActions.clear();
+                    bestActions.add(new ActionNode(move, an.score(), an.turns()));
                     bestScore = an.score();
                 }
+                // Or add to a list of possible actions
                 else if (an.score() == bestScore) {
-                    if (bestAction == null || an.compareTo(bestAction) < 0) {
-                        bestAction = new ActionNode(move, an.score(), an.turns());
+                    if (bestActions.isEmpty()) { // First action
+                        bestActions.add(new ActionNode(move, an.score(), an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) < 0) { // Action completed in fewer turns
+                        bestActions.clear();
+                        bestActions.add(new ActionNode(move, an.score(), an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) == 0) { // Actions are equal
+                        bestActions.add(new ActionNode(move, an.score(), an.turns()));
                     }
                 }
             }
@@ -66,26 +77,37 @@ public class MiniMaxPlayer implements Player
         else {
             int worstScore = Integer.MAX_VALUE;
 
+            // Attempt to minimize player's score
             for (Integer move : rack.possibleMoves()) {
                 Rack newRack = rack.clone();
                 newRack.place(enemyPlayer, move);
                 ActionNode an = minimax(move, newRack, depth + 1, true);
 
+                // Select the best action
                 if (an.score() < worstScore) {
-                    bestAction = new ActionNode(move, an.score(), an.turns());
+                    bestActions.clear();
+                    bestActions.add(new ActionNode(move, an.score(), an.turns()));
                     worstScore = an.score();
                 }
+                // Or add to a list of possible actions
                 else if (an.score() == worstScore) {
-                    if (bestAction == null || an.compareTo(bestAction) < 0) {
-                        bestAction = new ActionNode(move, an.score(), an.turns());
+                    if (bestActions.isEmpty()) { // First action
+                        bestActions.add(new ActionNode(move, an.score(), an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) < 0) { // Action completed in fewer turns
+                        bestActions.clear();
+                        bestActions.add(new ActionNode(move, an.score(), an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) == 0) { // Actions are equal
+                        bestActions.add(new ActionNode(move, an.score(), an.turns()));
                     }
                 }
             }
         }
 
-        // System.out.printf("Depth: %d, Actions: %s\n", depth, bestAction);
+        actionIndex = rand.nextInt(bestActions.size());
 
-        return bestAction;
+        return bestActions.get(actionIndex);
     }
 
     private class ActionNode implements Comparable<ActionNode>
