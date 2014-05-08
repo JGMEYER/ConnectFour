@@ -13,9 +13,9 @@ public class Rack
     private static final int TOP_RIGHT    = 3;
     private static final int LEFT         = 4;
     private static final int RIGHT        = 5;
-    private static final int BOTTOM_LEFT  = 6;          // unused
-    private static final int BOTTOM       = 7;          // unused
-    private static final int BOTTOM_RIGHT = 8;          // unused
+    //private static final int BOTTOM_LEFT  = 6;          // unused
+    //private static final int BOTTOM       = 7;          // unused
+    //private static final int BOTTOM_RIGHT = 8;          // unused
     private static final int SCORE_TO_WIN = 4;
     private static final int NULL_PLAYER  = 0;
 
@@ -97,11 +97,19 @@ public class Rack
     /*
      * Returns true if the game has ended.
      */
-    public boolean gameOver()
+    public boolean isGameOver()
     {
         return (winner != NULL_PLAYER || noMoreMoves());
     }
-    
+
+    /*
+     * Returns the rack height.
+     */
+    public int height()
+    {
+        return HEIGHT;
+    }
+
     /*
      * Returns true if a move is possible at the given column.
      */
@@ -131,7 +139,7 @@ public class Rack
      */
     public boolean place(int player, int col)
     {
-        if (!gameOver()) {
+        if (!isGameOver()) {
             for (int r = rack.length - 1; r >= 0; r--) {
                 if (!occupied(r, col)) {
                     rack[r][col][PLAYER] = player;
@@ -144,6 +152,14 @@ public class Rack
         return false;
     }
 
+    /*
+     * Returns the id of the player at a certain location.
+     */
+    public int playerAt(int row, int col)
+    {
+        return rack[row][col][PLAYER];
+    }
+    
     /*
      * Returns a list of all the available moves on the rack.
      */
@@ -168,7 +184,7 @@ public class Rack
         int threat1 = 0;
         int threat2 = 0;
 
-        if (gameOver()) {
+        if (isGameOver()) {
             if (winner == p1) {
                 threat1 = Integer.MAX_VALUE;
             }
@@ -283,11 +299,12 @@ public class Rack
             }
         }
     }
-    
+
     /*
      * Returns the rack width.
      */
-    public int width() {
+    public int width()
+    {
         return WIDTH;
     }
 

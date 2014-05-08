@@ -18,11 +18,18 @@ public class MiniMaxPlayer implements Player
         enemyPlayer = (player == 1) ? 2 : 1;
     }
 
+    @Override
     public int getMove(Rack rack)
     {
         ActionNode an = minimax(rack);
 
         return an.action();
+    }
+    
+    @Override
+    public boolean isHuman()
+    {
+        return false;
     }
 
     private ActionNode minimax(final Rack rack)
@@ -36,7 +43,7 @@ public class MiniMaxPlayer implements Player
         int score = rack.threat(player, enemyPlayer);
 
         // Terminating conditions
-        if (depth >= MAX_TURN_DEPTH || rack.gameOver()) {
+        if (depth >= MAX_TURN_DEPTH || rack.isGameOver()) {
             return new ActionNode(action, score, depth);
         }
 

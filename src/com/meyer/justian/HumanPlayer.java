@@ -29,10 +29,14 @@ public class HumanPlayer implements Player
             System.out.print("Move: ");
             playerMove = scan.nextInt();
         }
-        
         System.out.println();
         
         return playerMove;
+    }
+    
+    @Override
+    public boolean isHuman() {
+        return true;
     }
     
 }
