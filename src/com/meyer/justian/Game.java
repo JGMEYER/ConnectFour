@@ -7,7 +7,7 @@ public class Game
     {
         Rack rack = new Rack();
         //Player[] players = { null, new RandomPlayer(), new RandomPlayer() };
-        Player[] players = { null, new MiniMaxPlayer(1), new MiniMaxPlayer(2) };
+        Player[] players = { null, new HumanPlayer(), new MiniMaxPlayer(2) };
 
         int player;
         int turn = 0;

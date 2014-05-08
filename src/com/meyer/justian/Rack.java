@@ -101,7 +101,7 @@ public class Rack
     {
         return (winner != NULL_PLAYER || noMoreMoves());
     }
-
+    
     /*
      * Returns true if a move is possible at the given column.
      */
@@ -282,6 +282,13 @@ public class Rack
                 rack[r1][c1][neighbor] = 1;
             }
         }
+    }
+    
+    /*
+     * Returns the rack width.
+     */
+    public int width() {
+        return WIDTH;
     }
 
     /*

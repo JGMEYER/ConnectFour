@@ -109,6 +109,90 @@ public class MiniMaxPlayer implements Player
 
         return bestActions.get(actionIndex);
     }
+    
+    // TODO fix minimax
+    /*private ActionNode minimax(final int action, final Rack rack, final int depth, final boolean maximizing, int alpha, int beta)
+    {
+        int score = rack.threat(player, enemyPlayer);
+
+        // Terminating conditions
+        if (depth >= MAX_TURN_DEPTH || rack.gameOver() || beta <= alpha) {
+            return new ActionNode(action, score, depth);
+        }
+
+        Random rand = new Random();
+        int actionIndex;
+        List<ActionNode> bestActions = new ArrayList<ActionNode>();
+
+        if (maximizing) {
+            // Attempt to maximize player's score
+            for (Integer move : rack.possibleMoves()) {
+                Rack newRack = rack.clone();
+                newRack.place(player, move);
+                ActionNode an = minimax(move, newRack, depth, false, alpha, beta);
+
+                // Select the best action
+                if (an.score() > alpha) {
+                    bestActions.clear();
+                    alpha = an.score();
+                    bestActions.add(new ActionNode(move, alpha, an.turns()));
+                }
+                // Or add to a list of possible actions
+                else if (an.score() == alpha) {
+                    if (bestActions.isEmpty()) { // First action
+                        bestActions.add(new ActionNode(move, alpha, an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) < 0) { // Action completed in fewer turns
+                        bestActions.clear();
+                        bestActions.add(new ActionNode(move, alpha, an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) == 0) { // Actions are equal
+                        bestActions.add(new ActionNode(move, alpha, an.turns()));
+                    }
+                }
+                
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+        }
+        else {
+            // Attempt to minimize player's score
+            for (Integer move : rack.possibleMoves()) {
+                Rack newRack = rack.clone();
+                newRack.place(enemyPlayer, move);
+                ActionNode an = minimax(move, newRack, depth + 1, true, alpha, beta);
+
+                // Select the best action
+                if (an.score() < beta) {
+                    bestActions.clear();
+                    beta = an.score();
+                    bestActions.add(new ActionNode(move, beta, an.turns()));
+                }
+                // Or add to a list of possible actions
+                else if (an.score() == beta) {
+                    if (bestActions.isEmpty()) { // First action
+                        bestActions.add(new ActionNode(move, beta, an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) < 0) { // Action completed in fewer turns
+                        bestActions.clear();
+                        bestActions.add(new ActionNode(move, beta, an.turns()));
+                    }
+                    else if (an.compareTo(bestActions.get(0)) == 0) { // Actions are equal
+                        bestActions.add(new ActionNode(move, beta, an.turns()));
+                    }
+                }
+                
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+        }
+
+        actionIndex = rand.nextInt(bestActions.size());
+
+        return bestActions.get(actionIndex);
+    }*/
 
     private class ActionNode implements Comparable<ActionNode>
     {
